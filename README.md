@@ -10,7 +10,6 @@ This project implements a full‑stack authentication application that includes 
 - [Tech Stack](#tech-stack)
 - [Docker Setup and Deployment](#docker-setup-and-deployment)
 - [Getting Started](#getting-started)
-- [Environment Variables](#environment-variables)
 - [Acknowledgements](#acknowledgements)
 
 ---
@@ -21,7 +20,7 @@ This project implements a full‑stack authentication application that includes 
 
 - **Authentication:**
 
-  - Render an authentication form at URL (`http://localhost/login`), users log in with their username and password. On successful login, the server returns an `access_token`, `refresh_token`, and user information. The tokens (`access_token` and `refresh_token`) are stored in the `localStorage`.
+  - Render an authentication form at URL (`http://localhost/login`), users log in with their username and password. On successful login, the server returns an `access_token`, `refresh_token`, and `user` information. The tokens (`access_token` and `refresh_token`) are stored in the `localStorage`.
     - **access_token:** Used to access resources and APIs on the server.
     - **refresh_token:** Used to refresh the `access_token` when it expires; if the `refresh_token` also expires, the user is automatically logged out.
     <div align="center">
@@ -37,7 +36,7 @@ This project implements a full‑stack authentication application that includes 
       <img width="500" src="./assets/images/profile-page.png" alt="Profile page">
       <p  style="color: blue;">Profile page</p>
     </div>
-  - User credentials are stored in MongoDB.
+  - Data is stored in MongoDB.
     <div align="center">
       <img width="500" src="./assets/images/db-collections.png" alt="Profile page">
       <p  style="color: blue;">Database collections</p>
@@ -61,16 +60,20 @@ This project implements a full‑stack authentication application that includes 
     </div>
 - **Password Management:**
 
-  - Passwords are hashed.
-  - The system includes logout and password change functionalities.
+  - Passwords are hashed
+  - Change password
     <div align="center">
       <img width="500" src="./assets/images/change-password-page.png" alt="Profile page">
        <img width="500" src="./assets/images/change-password-successfully.png" alt="Profile page">
       <p  style="color: blue;">Change password</p>
     </div>
+  - Logout
+    - When a user logs out, the client sends the current `refresh_token` to the server.
+    - The server verifies and then deletes the corresponding `refresh_token` record from the database.
+    - On the client side, both `access_token` and `refresh_token` are removed from local storage, effectively logging the user out.
 
 - **Profile Information Update:**
-  - Users can update their personal information such as name, date of birthbirth, and avatar.
+  - Users can update their personal information such as name, date of birth, and avatar.
   <div align="center">
       <img width="500" src="./assets/images/update-profile-successfully.png" alt="Profile page">
       <p  style="color: blue;">Update profile</p>
