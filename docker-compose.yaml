@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  # MongoDB Service
+  db:
+    image: mongo:latest
+    container_name: db
+    volumes:
+      - db_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo_user
+      MONGO_INITDB_ROOT_PASSWORD: mongo_password
+    networks:
+      - app-network
+    restart: always
+
+  # server service
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: server
+    ports:
+      - "4000:4000" # Expose only if needed
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  # client Service
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - server
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:
